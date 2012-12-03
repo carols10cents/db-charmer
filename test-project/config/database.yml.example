@@ -50,6 +50,14 @@ test:
     <<: *common
     database: db_charmer_events_test_shard02
 
+  schools_shard_one:
+    <<: *common
+    database: db_charmer_schools_shard_one
+
+  schools_shard_two:
+    <<: *common
+    database: db_charmer_schools_shard_two
+
 #----------------------------------------------------------------
 test22:
   <<: *common
