@@ -6,10 +6,19 @@ common: &common
   username: root
   password:
 
+development:
+  <<: *common
+  database: db_charmer_sandbox_test
+
 #----------------------------------------------------------------
 test:
   <<: *common
   database: db_charmer_sandbox_test
+
+  # enrollments database
+  enrollments:
+    <<: *common
+    database: db_charmer_enrollments_test
 
   # logs database
   logs:

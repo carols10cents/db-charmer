@@ -4,6 +4,9 @@ create database db_charmer_sandbox_test;
 drop database if exists db_charmer_logs_test;
 create database db_charmer_logs_test;
 
+drop database if exists db_charmer_enrollments_test;
+create database db_charmer_enrollments_test;
+
 drop database if exists db_charmer_events_test_shard01;
 create database db_charmer_events_test_shard01;
 
