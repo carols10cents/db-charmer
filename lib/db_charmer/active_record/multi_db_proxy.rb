@@ -38,8 +38,8 @@ module DbCharmer
             old_proxy = db_charmer_connection_proxy
             puts "============================================================"
             puts "my name is #{self}"
-            puts "the old connection is #{old_proxy ? old_proxy.instance_variable_get(:@config)[:database] : "nil"}"
-            puts "the connection being switched to is #{con ? con.instance_variable_get(:@config)[:database] : "nil"}"
+            puts "the old connection is #{old_proxy && old_proxy.instance_variable_get(:@config) ? old_proxy.instance_variable_get(:@config)[:database] : "nil"}"
+            puts "the connection being switched to is #{con && con.instance_variable_get(:@config) ? con.instance_variable_get(:@config)[:database] : "nil"}"
             puts "============================================================"
 
             switch_connection_to(con, DbCharmer.connections_should_exist?)
