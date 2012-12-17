@@ -4,8 +4,14 @@ module DbCharmer
       def establish_real_connection_if_exists(name, should_exist = false)
         name = name.to_s
 
+        Rails.logger.error "[DBCHARMER connection_switching] AR  #{::ActiveRecord::Base.configurations.inspect}"
+        Rails.logger.error "[DBCHARMER connection_switching] #{configurations.inspect}"
+
+
         # Check environment name
         config = configurations[DbCharmer.env]
+
+
         unless config
           error = "Invalid environment name (does not exist in database.yml): #{DbCharmer.env}. Please set correct Rails.env or DbCharmer.env."
           raise ArgumentError, error

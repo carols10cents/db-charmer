@@ -26,6 +26,7 @@ module DbCharmer
 
     # Establish connection with a specified name
     def self.establish_connection(connection_name, should_exist = true)
+      Rails.logger.error "[DBCHARMER connection_factory] #{::ActiveRecord::Base.configurations.inspect}"
       abstract_class = generate_abstract_class(connection_name, should_exist)
       DbCharmer::ConnectionProxy.new(abstract_class, connection_name)
     end
