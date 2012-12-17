@@ -5,12 +5,18 @@ module DbCharmer
         name = name.to_s
 
         Rails.logger.error "[DBCHARMER connection_switching] AR  #{::ActiveRecord::Base.configurations.inspect}"
-        Rails.logger.error "[DBCHARMER connection_switching] #{configurations.inspect}"
 
         my_configs = configurations
 
-        unless my_configs || !my_configs.empty?
-          my_configs = YAML.load(open("config/database.yml"))
+        Rails.logger.error "[DBCHARMER connection_switching] #{my_configs.inspect}"
+
+
+        database_yml = "#{Rails.root}/config/database.yml"
+        Rails.logger.error "[DBCHARMER connection_switching] config file  #{database_yml}"
+
+        if !my_configs || my_configs.empty?
+          Rails.logger.error "[DBCHARMER connection_switching] loading database.yml"
+          my_configs = YAML.load(open(database_yml))
         end
 
         Rails.logger.error "[DBCHARMER connection_switching] my_configs  #{my_configs.inspect}"
