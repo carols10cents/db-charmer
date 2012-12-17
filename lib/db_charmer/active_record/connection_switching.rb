@@ -7,12 +7,21 @@ module DbCharmer
         Rails.logger.error "[DBCHARMER connection_switching] AR  #{::ActiveRecord::Base.configurations.inspect}"
         Rails.logger.error "[DBCHARMER connection_switching] #{configurations.inspect}"
 
+        my_configs = configurations
+
+        unless my_configs || !my_configs.empty?
+          my_configs = YAML.load(open("config/database.yml"))
+        end
+
+        Rails.logger.error "[DBCHARMER connection_switching] my_configs  #{my_configs.inspect}"
+
 
         # Check environment name
-        config = configurations[DbCharmer.env]
+        config = my_configs[DbCharmer.env]
 
 
         unless config
+
           error = "Invalid environment name (does not exist in database.yml): #{DbCharmer.env}. Please set correct Rails.env or DbCharmer.env."
           raise ArgumentError, error
         end
