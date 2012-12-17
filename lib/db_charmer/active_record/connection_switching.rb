@@ -4,30 +4,17 @@ module DbCharmer
       def establish_real_connection_if_exists(name, should_exist = false)
         name = name.to_s
 
-        Rails.logger.error "[DBCHARMER connection_switching] AR  #{::ActiveRecord::Base.configurations.inspect}"
-
         my_configs = configurations
-
-        Rails.logger.error "[DBCHARMER connection_switching] #{my_configs.inspect}"
-
-
         database_yml = "#{Rails.root}/config/database.yml"
-        Rails.logger.error "[DBCHARMER connection_switching] config file  #{database_yml}"
 
         if !my_configs || my_configs.empty?
-          Rails.logger.error "[DBCHARMER connection_switching] loading database.yml"
           my_configs = YAML.load(open(database_yml))
         end
-
-        Rails.logger.error "[DBCHARMER connection_switching] my_configs  #{my_configs.inspect}"
-
 
         # Check environment name
         config = my_configs[DbCharmer.env]
 
-
         unless config
-
           error = "Invalid environment name (does not exist in database.yml): #{DbCharmer.env}. Please set correct Rails.env or DbCharmer.env."
           raise ArgumentError, error
         end
