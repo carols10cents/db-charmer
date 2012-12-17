@@ -6,6 +6,15 @@ module DbCharmer
 
         # Check environment name
         config = configurations[DbCharmer.env]
+
+
+        # Inspect `config` here; it will be an empty hash.
+        # Inspect ::ActiveRecord::Base.connection; it will be the master
+        # connection.
+        # How does ::ActiveRecord::Base know about the interpreted contents
+        # of database.yml but DbCharmer here does not??????
+        binding.pry
+
         unless config
           error = "Invalid environment name (does not exist in database.yml): #{DbCharmer.env}. Please set correct Rails.env or DbCharmer.env."
           raise ArgumentError, error
