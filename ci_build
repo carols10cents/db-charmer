@@ -29,8 +29,8 @@ mysql -u root < db/create_databases.sql
 mysql -u root db_charmer_sandbox_test < db/sharding.sql
 
 # Install gems
-rm -f Gemfile.lock
-bundle install
+# rm -f Gemfile.lock
+# bundle install
 
 # Run migrations
 bundle exec rake --trace db:migrate

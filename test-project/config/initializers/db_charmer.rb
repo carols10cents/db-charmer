@@ -2,8 +2,8 @@ DbCharmer.connections_should_exist = false # Since we are not in production
 DbCharmer.enable_controller_magic!
 
 SHARDING_MAP = {
-    '1' => :schools_shard_one,
-    '2' => :schools_shard_two,
+    'one' => :schools_shard_one,
+    'two' => :schools_shard_two,
     :default => :schools_shard_two
 }
 
