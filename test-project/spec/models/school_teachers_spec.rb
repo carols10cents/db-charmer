@@ -9,12 +9,21 @@ describe "Schools and teachers - shard choice is dependent" do
 
     @school = School.shard_for('one').create!
 
+    puts "school = #{@school.inspect}"
+
     # Some of these tests pass if we do this:
     # @teacher = @school.teachers.shard_for('1').create!
     # but we don't want to have to do that.
 
     # We expect to be able to do:
     @teacher = @school.teachers.create!
+    puts "teacher = #{@teacher.inspect}"
+    puts "================"
+    puts "School Shard 1: #{School.on_db(:schools_shard_one).all.inspect}"
+    puts "Teacher Shard 1: #{Teacher.on_db(:schools_shard_one).all.inspect}"
+    puts "================"
+    puts "School Shard 1: #{School.on_db(:schools_shard_two).all.inspect}"
+    puts "Teacher Shard 1: #{Teacher.on_db(:schools_shard_one).all.inspect}"
   end
 
   describe "teacher" do
