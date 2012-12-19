@@ -35,6 +35,13 @@ module DbCharmer
         end
       end
 
+      module InstanceMethods
+        def shard_for(key, proxy_target = nil, &block)
+          proxy_target ||= self
+          self.class.shard_for(key, proxy_target, &block)
+        end
+      end
+
     end
   end
 end

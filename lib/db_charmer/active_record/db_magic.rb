@@ -53,6 +53,7 @@ module DbCharmer
       def setup_sharding_magic(config)
         # Add sharding-specific methods
         self.extend(DbCharmer::ActiveRecord::Sharding)
+        self.send(:include, DbCharmer::ActiveRecord::Sharding::InstanceMethods)
 
         # Get configuration
         name = config[:sharded_connection] or raise ArgumentError, "No :sharded_connection!"
