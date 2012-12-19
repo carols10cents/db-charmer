@@ -1,17 +1,27 @@
 require 'spec_helper'
 
 describe SchoolsController do
-  fixtures :schools
 
   describe "GET 'show'" do
-    it "should use the other connection" do
-      school = School.first
-      School.on_db(:schools_shard_one).connection.should_not_receive(:select_value) # no counts
-      School.on_db(:schools_shard_one).connection.should_not_receive(:select_all) # no finds
+    before do
+      [:schools_shard_one, :schools_shard_two].each do |shard|
+        School.on_db(shard).delete_all
+        Teacher.on_db(shard).delete_all
+      end
 
-      School.on_db(:schools_shard_two).connection.should_receive(:select_value).and_return(1)
-      School.on_db(:schools_shard_two).connection.should_receive(:select_all).and_return([school.attributes])
-      get 'show', :id => 1
+      DbCharmer.with_remapped_databases(:schools => :schools_shard_two) do
+        @school = School.create!
+        @teacher = @school.teachers.create!
+      end
+    end
+
+    it "should use the remapped connection set in application controller" do
+      School.on_db(:schools_shard_one)
+            .connection.should_not_receive(:select_value) # no counts
+      School.on_db(:schools_shard_one)
+            .connection.should_not_receive(:select_all) # no finds
+
+      get 'show', :id => @school.id
     end
   end
 end
