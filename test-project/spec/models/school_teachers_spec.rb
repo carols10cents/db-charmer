@@ -16,14 +16,16 @@ describe "Schools and teachers - shard choice is dependent" do
     # but we don't want to have to do that.
 
     # We expect to be able to do:
-    @teacher = @school.teachers.create!
+    # @teacher = @school.teachers.on_db(:schools_shard_one).create!
+    @teacher = @school.teachers.on_db(:schools_shard_one).create!
     puts "teacher = #{@teacher.inspect}"
     puts "================"
     puts "School Shard 1: #{School.on_db(:schools_shard_one).all.inspect}"
     puts "Teacher Shard 1: #{Teacher.on_db(:schools_shard_one).all.inspect}"
     puts "================"
-    puts "School Shard 1: #{School.on_db(:schools_shard_two).all.inspect}"
-    puts "Teacher Shard 1: #{Teacher.on_db(:schools_shard_one).all.inspect}"
+    puts "School Shard 2: #{School.on_db(:schools_shard_two).all.inspect}"
+    puts "Teacher Shard 2: #{Teacher.on_db(:schools_shard_two).all.inspect}"
+    puts "================"
   end
 
   describe "teacher" do
