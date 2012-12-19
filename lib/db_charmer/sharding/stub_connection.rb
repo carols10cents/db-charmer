@@ -49,7 +49,12 @@ module DbCharmer
         end
 
         if real_connection.kind_of?(DbCharmer::Sharding::StubConnection)
-          raise ::ActiveRecord::ConnectionNotEstablished, "You have to switch connection on your model before using it!"
+          if sharded_connection.support_default_shard?
+            conn = sharded_connection.sharder.shard_for_key(:default)
+            set_real_connection ::ActiveRecord::Base.coerce_to_connection_proxy(conn, DbCharmer.connections_should_exist?)
+          else
+            raise ::ActiveRecord::ConnectionNotEstablished, "You have to switch connection on your model before using it!"
+          end
         end
 
         # Proxy the call to our real connection target
