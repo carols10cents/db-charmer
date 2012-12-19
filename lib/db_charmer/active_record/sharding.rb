@@ -40,6 +40,11 @@ module DbCharmer
           proxy_target ||= self
           self.class.shard_for(key, proxy_target, &block)
         end
+
+        def on_default_shard(proxy_target = nil, &block)
+          proxy_target ||= self
+          self.class.on_default_shard(proxy_target, &block)
+        end
       end
 
     end

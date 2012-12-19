@@ -7,7 +7,7 @@ describe "Schools and teachers - shard choice is dependent" do
       Teacher.shard_for(shard).delete_all
     end
 
-    @school = School.shard_for('one').create!
+    @school = School.on_default_shard.create!
   end
 
   describe "teacher" do
@@ -21,6 +21,13 @@ describe "Schools and teachers - shard choice is dependent" do
     describe "using shard_for" do
       it "has a school id" do
         @teacher = @school.shard_for('one').teachers.create!
+        @teacher.school_id.should_not be_nil
+      end
+    end
+
+    describe "using on_default_shard" do
+      it "has a school id" do
+        @teacher = @school.on_default_shard.teachers.create!
         @teacher.school_id.should_not be_nil
       end
     end
