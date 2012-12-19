@@ -1,21 +1,26 @@
 DbCharmer.connections_should_exist = false # Since we are not in production
 DbCharmer.enable_controller_magic!
 
-SHARDING_MAP = {
-    'one' => :schools_shard_one,
-    'two' => :schools_shard_two,
-    :default => :schools_shard_two
-}
+class DbCharmer::Sharding::Method::PerRequest
+  def initialize(config)
+  end
+
+  def shard_for_key(key)
+    # Ignore key and look for the global value
+    :schools_shard_one
+  end
+
+  def support_default_shard?
+    true
+  end
+end
 
 DbCharmer::Sharding.register_connection(
-    :name   => :schools,
-    :method => :hash_map,
-    :map    => SHARDING_MAP
+  :name   => :schools,
+  :method => :per_request
 )
 
 DbCharmerSandbox::Application.configure do
-  # BEGIN: SHARDING CUSTOMIZATION
-
   # should match names in database.yml
-  config.shards = [ :schools_shard_one, :schools_shard_two]
+  config.shards = [:schools_shard_one, :schools_shard_two]
 end
