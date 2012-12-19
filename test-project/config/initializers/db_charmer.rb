@@ -7,7 +7,7 @@ class DbCharmer::Sharding::Method::PerRequest
 
   def shard_for_key(key)
     # Ignore key and look for the global value
-    ApplicationController.request_shard
+    key
   end
 
   def support_default_shard?
