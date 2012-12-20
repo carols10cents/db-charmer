@@ -32,7 +32,7 @@ describe "Schools and teachers - shard choice is dependent" do
 
   describe "teacher" do
     before do
-      @teacher = @school.teachers.create!
+      @teacher = @school.teachers.on_dependent_shard.create!
     end
 
     it "has a school id" do
