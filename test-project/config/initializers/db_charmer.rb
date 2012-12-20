@@ -6,8 +6,11 @@ class DbCharmer::Sharding::Method::PerRequest
   end
 
   def shard_for_key(key)
-    # Ignore key and look for the global value
-    key
+    if DbCharmerSandbox::Application.config.shards.include?(key)
+      key
+    else
+      DbCharmerSandbox::Application.config.shards.last
+    end
   end
 
   def support_default_shard?
