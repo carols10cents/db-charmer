@@ -16,7 +16,7 @@ class School < ActiveRecord::Base
     :schools_shard_one
   end
 
-  has_many :teachers
+  has_many_on_shard :teachers
 
   def teachers
     super.on_db(shard_id)
