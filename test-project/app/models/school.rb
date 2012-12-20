@@ -16,10 +16,10 @@ class School < ActiveRecord::Base
     :schools_shard_one
   end
 
-  has_many :teachers do
-    def on_dependent_shard
-      on_db(proxy_association.owner.shard_id)
-    end
+  has_many :teachers
+
+  def teachers
+    super.on_db(shard_id)
   end
 
 end
